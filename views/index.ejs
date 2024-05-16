@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center">Weather App</h1>
+    <form action="/getWeather" method="GET">
+      <div class="form-group">
+        <label for="zip">Enter Zip Code:</label>
+        <input type="text" class="form-control" id="zip" name="zip" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Get Weather</button>
+    </form>
+
+    <% if (location) { %>
+      <h2 class="text-center mt-4"><%= location %></h2>
+    <% } %>
+    
+    <% if (forecast) { %>
+      <div class="response-area mt-4">
+        <h2>5-Day Forecast</h2>
+        <div class="row">
+          <% forecast.forEach(function(day, index) { %>
+            <div class="col-md-4">
+              <div class="forecast-item">
+                <h3><%= new Date(day.dt_txt).toLocaleDateString() %></h3>
+                <p>Temperature: <%= day.main.temp %>°F</p>
+                <p>Condition: <%= day.weather[0].description %></p>
+                <img src="http://openweathermap.org/img/wn/<%= day.weather[0].icon %>@2x.png" alt="<%= day.weather[0].description %>">
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% } %>
+
+    <% if (error) { %>
+      <div class="alert alert-danger mt-4"><%= error %></div>
+    <% } %>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
