@@ -26,13 +26,14 @@
       <div class="response-area mt-4">
         <h2>5-Day Forecast</h2>
         <div class="row">
-          <% forecast.forEach(function(day, index) { %>
+          <% forecast.forEach(function(day) { %>
             <div class="col-md-4">
               <div class="forecast-item">
-                <h3><%= new Date(day.dt_txt).toLocaleDateString() %></h3>
-                <p>Temperature: <%= day.main.temp %>°F</p>
-                <p>Condition: <%= day.weather[0].description %></p>
-                <img src="http://openweathermap.org/img/wn/<%= day.weather[0].icon %>@2x.png" alt="<%= day.weather[0].description %>">
+                <h3><%= new Date(day.date).toLocaleDateString() %></h3>
+                <p>High: <%= day.tempMax %>°F</p>
+                <p>Low: <%= day.tempMin %>°F</p>
+                <p><%= day.weather.description %></p>
+                <img src="http://openweathermap.org/img/wn/<%= day.weather.icon %>@2x.png" alt="<%= day.weather.description %>">
               </div>
             </div>
           <% }); %>
@@ -50,4 +51,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
 
