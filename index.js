@@ -86,7 +86,7 @@ app.get('/getWeather', async (req, res) => {
     });
 
     // Filter forecasts to show only today and the next four days
-    const filteredForecasts = dailyForecasts.filter(forecast => moment(forecast.date).isSameOrAfter(today)).slice(0, 5);
+    const filteredForecasts = dailyForecasts.filter(forecast => moment(forecast.date).isAfter(today)).slice(0, 5);
 
     res.render('index', { location: location, forecast: filteredForecasts, error: null });
   } catch (error) {
