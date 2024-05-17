@@ -19,7 +19,13 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  res.render('index', { location: null, forecast: null, error: null, content: 'Enter a postal code to get the current weather.' });
+  res.render('index', { activePage: 'home', location: null, forecast: null, error: null, content: 'Enter a postal code to get the current weather.' });
+});
+
+app.get('/about', (req, res) => {
+  res.render('about', {
+    activePage: 'about'
+  });
 });
 
 app.get('/getWeather', async (req, res) => {
@@ -89,10 +95,10 @@ app.get('/getWeather', async (req, res) => {
     // Filter forecasts to show only today and the next four days
     const filteredForecasts = dailyForecasts.filter(forecast => moment(forecast.date).isAfter(today)).slice(0, 5);
 
-    res.render('index', { location: location, forecast: filteredForecasts, error: null });
+    res.render('index', { activePage: 'home', location: location, forecast: filteredForecasts, error: null });
   } catch (error) {
     console.error(error);
-    res.render('index', { location: null, forecast: null, error: 'Error fetching data. Please try again.', content: null });
+    res.render('index', { activePage: 'home', location: null, forecast: null, error: 'Error fetching data. Please try again.', content: null });
   }
 });
 

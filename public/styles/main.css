@@ -1,11 +1,11 @@
-body {
+/* body {
   background-color: #f8f9fa;
-}
+} */
 
-.container {
+/* .container {
   max-width: 800px;
   margin: 0 auto;
-}
+} */
 
 .response-area {
   background-color: #ffffff;
@@ -155,6 +155,128 @@ input:checked + .slider:before {
     flex: 1;
   }
 }
+
+/* Custom styles for the navigation bar */
+.nav-pills .nav-link {
+  color: #343a40; /* Bootstrap's dark color */
+  background-color: transparent;
+  border: 0; /* Remove any border */
+  transition: color 0.2s; /* Smooth transition for color change */
+}
+
+.nav-pills .nav-link:hover {
+  color: #6c757d; /* Bootstrap's gray color */
+  background-color: transparent; /* Keep the background transparent */
+}
+
+.nav-pills .nav-link.active, .nav-pills .nav-link.active:hover, .nav-pills .nav-link.active:focus {
+  color: white;
+  background-color: #343a40; /* Bootstrap's dark color */
+  border: 0; /* Remove any border if present */
+}
+
+/* Footer styling */
+/* footer {
+  background-color: #f8f9fa;
+  padding: 10px 0;
+  border-top: 1px solid #eaeaea;
+} */
+
+footer .nav-pills .nav-link {
+  color: #343a40; /* Bootstrap's dark color */
+  background-color: transparent;
+  border: 0; /* Remove any border */
+  transition: color 0.2s; /* Smooth transition for color change */
+}
+
+footer .nav-pills .nav-link:hover {
+  color: #6c757d; /* Bootstrap's gray color */
+  background-color: transparent; /* Keep the background transparent */
+}
+
+footer .nav-pills .nav-link.active, footer .nav-pills .nav-link.active:hover, footer .nav-pills .nav-link.active:focus {
+  color: white;
+  background-color: #343a40; /* Bootstrap's dark color */
+  border: 0; /* Remove any border if present */
+}
+
+/* Social media icons */
+footer .nav li a {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+/* For About page */
+
+li {
+  margin-bottom: 2px !important;
+}
+
+/* .about-h1 {
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  font-optical-sizing: inherit;
+  font-variation-settings: inherit;
+} */
+
+#family-image {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  width: 100%; /* Ensure it stretches to the width of its container */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0; /* Remove any default margin */
+}
+
+#family-image-section.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+img#family-image.img-fluid {
+  width: 100%; /* This will ensure it's full width of its container */
+  height: auto; /* This will maintain the aspect ratio of the image */
+  display: block; /* Removes any space below the image */
+}
+
+.bi-cup-hot, .bi-person-walking, .bi-egg-fried, .bi-code { /* Add all relevant SVG icon classes here */
+  vertical-align: middle; /* This aligns the middle of the SVG with the middle of the text line */
+}
+
+svg.bi {
+  vertical-align: middle;
+}
+
+/* Ensure the parent div is a flex container and items are aligned properly */
+.col.d-flex.align-items-start {
+  display: flex;
+  align-items: center; /* Center align items vertically */
+}
+
+.col.d-flex.align-items-start svg {
+  margin-right: 0.75rem; /* Space between icon and text */
+}
+
+/* About Page Paragraph Text */
+
+.text-box {
+  background-color: white;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  text-align: left;
+}
+
+/* Background color for About page */
+#about-page {
+  background-color: #ffffff;
+}
+
+
+
+
+
+
+
 
 
 
