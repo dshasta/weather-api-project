@@ -1,12 +1,3 @@
-/* body {
-  background-color: #f8f9fa;
-} */
-
-/* .container {
-  max-width: 800px;
-  margin: 0 auto;
-} */
-
 .response-area {
   background-color: #ffffff;
   padding: 20px;
@@ -32,26 +23,10 @@
   max-width: 120px;
 }
 
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
 h2 {
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 1.5em;
-}
-
-h3, h5 {
-  font-size: 1.2em;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-p {
-  margin: 5px 0;
 }
 
 .form-group input {
@@ -177,37 +152,6 @@ input:checked + .slider:before {
   border: 0; /* Remove any border if present */
 }
 
-/* Footer styling */
-/* footer {
-  background-color: #f8f9fa;
-  padding: 10px 0;
-  border-top: 1px solid #eaeaea;
-} */
-
-footer .nav-pills .nav-link {
-  color: #343a40; /* Bootstrap's dark color */
-  background-color: transparent;
-  border: 0; /* Remove any border */
-  transition: color 0.2s; /* Smooth transition for color change */
-}
-
-footer .nav-pills .nav-link:hover {
-  color: #6c757d; /* Bootstrap's gray color */
-  background-color: transparent; /* Keep the background transparent */
-}
-
-footer .nav-pills .nav-link.active, footer .nav-pills .nav-link.active:hover, footer .nav-pills .nav-link.active:focus {
-  color: white;
-  background-color: #343a40; /* Bootstrap's dark color */
-  border: 0; /* Remove any border if present */
-}
-
-/* Social media icons */
-footer .nav li a {
-  display: inline-block;
-  margin: 0 5px;
-}
-
 /* For About page */
 
 li {
@@ -240,13 +184,6 @@ img#family-image.img-fluid {
   display: block; /* Removes any space below the image */
 }
 
-.bi-cup-hot, .bi-person-walking, .bi-egg-fried, .bi-code { /* Add all relevant SVG icon classes here */
-  vertical-align: middle; /* This aligns the middle of the SVG with the middle of the text line */
-}
-
-svg.bi {
-  vertical-align: middle;
-}
 
 /* Ensure the parent div is a flex container and items are aligned properly */
 .col.d-flex.align-items-start {
@@ -268,10 +205,10 @@ svg.bi {
   text-align: left;
 }
 
-/* Background color for About page */
-#about-page {
-  background-color: #ffffff;
-}
+
+
+
+
 
 
 
