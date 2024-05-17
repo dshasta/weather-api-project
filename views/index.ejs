@@ -9,29 +9,49 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="text-center">Weather App</h1>
-    <form action="/getWeather" method="GET">
-      <div class="form-group">
-        <label for="zip">Enter Zip Code:</label>
-        <input type="text" class="form-control" id="zip" name="zip" required>
+    <div class="d-flex justify-content-end mt-4">
+      <div class="text-right">
+        <label class="switch">
+          <input type="checkbox" id="unitToggle" checked>
+          <span class="slider round"></span>
+        </label>
+        <span id="unitLabel">°F</span>
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Get Weather</button>
-    </form>
+    </div>
+    <div class="text-center mt-4">
+      <h1 class="text-center">Weather App</h1>
+      <form action="/getWeather" method="GET" class="d-inline-block w-100">
+        <div class="form-group d-flex justify-content-center">
+          <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter zip code" required>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary">Get Weather</button>
+        </div>
+      </form>
+    </div>
 
     <% if (location) { %>
-      <h2 class="text-center mt-4"><%= location %></h2>
+      <h2 class="text-center mt-4 location"><%= location %></h2>
     <% } %>
-    
+
     <% if (forecast) { %>
       <div class="response-area mt-4">
-        <h2>5-Day Forecast</h2>
-        <div class="row">
-          <% forecast.forEach(function(day) { %>
-            <div class="col-md-4">
-              <div class="forecast-item">
-                <h3><%= new Date(day.date).toLocaleDateString() %></h3>
-                <p>High: <%= day.tempMax %>°F</p>
-                <p>Low: <%= day.tempMin %>°F</p>
+        <h2 class="text-center">5-Day Forecast</h2>
+        <div class="row text-center justify-content-center">
+          <% forecast.forEach(function(day, index) { %>
+            <div class="col-12 col-md-2 forecast-item">
+              <div class="forecast-content">
+                <h5>
+                  <% if (index === 0) { %>
+                    Today
+                  <% } else { %>
+                    <%= new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' }) %>
+                  <% } %>
+                </h5>
+                <p>
+                  <span class="temp-max"><%= day.tempMax %></span>°<span class="unit">F</span> / 
+                  <span class="temp-min"><%= day.tempMin %></span>°<span class="unit">F</span>
+                </p>
                 <p><%= day.weather.description %></p>
                 <img src="http://openweathermap.org/img/wn/<%= day.weather.icon %>@2x.png" alt="<%= day.weather.description %>">
               </div>
@@ -45,12 +65,51 @@
       <div class="alert alert-danger mt-4"><%= error %></div>
     <% } %>
   </div>
-  
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const unitToggle = document.getElementById('unitToggle');
+      const unitLabel = document.getElementById('unitLabel');
+      const tempElements = document.querySelectorAll('.temp-max, .temp-min');
+      const unitElements = document.querySelectorAll('.unit');
+
+      unitToggle.addEventListener('change', function() {
+        const isImperial = unitToggle.checked;
+        unitLabel.textContent = isImperial ? '°F' : '°C';
+
+        tempElements.forEach((tempElement, index) => {
+          const currentTemp = parseFloat(tempElement.textContent);
+          if (isImperial) {
+            // Convert from Celsius to Fahrenheit
+            tempElement.textContent = Math.round((currentTemp * 9/5) + 32);
+            unitElements[index].textContent = 'F';
+          } else {
+            // Convert from Fahrenheit to Celsius
+            tempElement.textContent = Math.round((currentTemp - 32) * 5/9);
+            unitElements[index].textContent = 'C';
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

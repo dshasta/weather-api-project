@@ -19,13 +19,14 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  res.render('index', { location: null, forecast: null, error: null, content: 'Enter a zip code to get the current weather.' });
+  res.render('index', { location: null, forecast: null, error: null, content: 'Enter a postal code to get the current weather.' });
 });
 
 app.get('/getWeather', async (req, res) => {
   const zip = req.query.zip;
   try {
-    const weatherResponse = await axios.get(`${baseApiUrl}/data/2.5/forecast?zip=${zip},us&appid=${apiKey}&units=imperial`);
+    // Use postal code without specifying the country, so OpenWeatherMap can determine the location
+    const weatherResponse = await axios.get(`${baseApiUrl}/data/2.5/forecast?zip=${zip}&appid=${apiKey}&units=imperial`);
     const forecast = weatherResponse.data;
 
     // Extract city and country
@@ -98,6 +99,7 @@ app.get('/getWeather', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
 
 
 
