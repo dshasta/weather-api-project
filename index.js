@@ -10,7 +10,6 @@ dotenv.config();
 const app = express();
 const port = 3000;
 const baseApiUrl = "http://api.openweathermap.org";
-
 const apiKey = process.env.OPENWEATHER_API_KEY;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,7 +18,13 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  res.render('index', { activePage: 'home', location: null, forecast: null, error: null, content: 'Enter a postal code to get the current weather.' });
+  res.render('index', {
+    activePage: 'home',
+    location: null,
+    forecast: null,
+    error: null,
+    content: 'Enter a postal code to get the current weather.'
+  });
 });
 
 app.get('/about', (req, res) => {
@@ -31,29 +36,30 @@ app.get('/about', (req, res) => {
 app.get('/getWeather', async (req, res) => {
   const zip = req.query.zip;
   try {
-    // Use postal code without specifying the country, so OpenWeatherMap can determine the location
     const weatherResponse = await axios.get(`${baseApiUrl}/data/2.5/forecast?zip=${zip}&appid=${apiKey}&units=imperial`);
     const forecast = weatherResponse.data;
 
-    // Extract city and country
     const city = forecast.city.name;
     const country = forecast.city.country;
     const location = `${city}, ${country}`;
 
-    // Get the timezone offset from the API response (in seconds)
     const timezoneOffset = forecast.city.timezone;
 
-    // Get the current local date in the city's time zone
-    const today = moment.utc().add(timezoneOffset, 'seconds').format('YYYY-MM-DD');
+    // Correct handling of local time based on API-provided offset
+    const localNow = moment.utc().add(timezoneOffset, 'seconds');
+    const today = localNow.clone().startOf('day'); // Keeps as Moment object
 
-    // Group forecasts by day and calculate high and low temperatures
+    // Group forecasts by local date
     const forecastByDay = {};
 
     forecast.list.forEach(item => {
-      // Adjust each forecast item's timestamp to the local date using the timezone offset
       const localDate = moment.utc(item.dt * 1000).add(timezoneOffset, 'seconds').format('YYYY-MM-DD');
       if (!forecastByDay[localDate]) {
-        forecastByDay[localDate] = { tempMin: item.main.temp, tempMax: item.main.temp, weather: [] };
+        forecastByDay[localDate] = {
+          tempMin: item.main.temp,
+          tempMax: item.main.temp,
+          weather: []
+        };
       } else {
         if (item.main.temp < forecastByDay[localDate].tempMin) {
           forecastByDay[localDate].tempMin = item.main.temp;
@@ -68,7 +74,7 @@ app.get('/getWeather', async (req, res) => {
     const dailyForecasts = Object.keys(forecastByDay).sort().map(date => {
       const dayData = forecastByDay[date];
       const weatherCounts = dayData.weather.reduce((acc, weather) => {
-        const key = weather.icon.replace('n', 'd'); // Force day icon
+        const key = weather.icon.replace('n', 'd');
         if (!acc[key]) {
           acc[key] = { count: 0, weather };
         }
@@ -77,7 +83,6 @@ app.get('/getWeather', async (req, res) => {
       }, {});
       const mostFrequentWeather = Object.values(weatherCounts).sort((a, b) => b.count - a.count)[0].weather;
 
-      // Capitalize the first letter of the weather description
       const description = mostFrequentWeather.description.charAt(0).toUpperCase() + mostFrequentWeather.description.slice(1);
 
       return {
@@ -86,36 +91,34 @@ app.get('/getWeather', async (req, res) => {
         tempMax: Math.round(dayData.tempMax),
         weather: {
           ...mostFrequentWeather,
-          description: description,
-          icon: mostFrequentWeather.icon.replace('n', 'd') // Ensure day icon
+          description,
+          icon: mostFrequentWeather.icon.replace('n', 'd')
         }
       };
     });
 
-    // Filter forecasts to show only today and the next four days
-    const filteredForecasts = dailyForecasts.filter(forecast => moment(forecast.date).isAfter(today)).slice(0, 5);
+    const filteredForecasts = dailyForecasts
+      .filter(forecast => moment(forecast.date).isSameOrAfter(today, 'day'))
+      .slice(0, 5);
 
-    res.render('index', { activePage: 'home', location: location, forecast: filteredForecasts, error: null });
+    res.render('index', {
+      activePage: 'home',
+      location,
+      forecast: filteredForecasts,
+      error: null
+    });
   } catch (error) {
     console.error(error);
-    res.render('index', { activePage: 'home', location: null, forecast: null, error: 'Error fetching data. Please try again.', content: null });
+    res.render('index', {
+      activePage: 'home',
+      location: null,
+      forecast: null,
+      error: 'Error fetching data. Please try again.',
+      content: null
+    });
   }
 });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
